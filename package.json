@@ -1,0 +1,31 @@
+{
+  "name": "hackathon-devops",
+  "version": "1.0.0",
+  "description": "Hackathon 2018 - Devops + NodeJS + Webpack",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "rimraf dist && webpack",
+    "build:prod": "rimraf dist && webpack -p"
+  },
+  "keywords": [
+    "hackathon",
+    "devops",
+    "nodejs",
+    "webpack"
+  ],
+  "author": "José María Palma, Juan Gabriel Recio",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "html-webpack-plugin": "^2.30.1",
+    "rimraf": "^2.6.2",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
