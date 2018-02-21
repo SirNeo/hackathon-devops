@@ -1,27 +1,44 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: {
         app: './index.js',
+        appStyles: [
+            './styles.css',
+        ],
         vendor: [
             'jquery',
         ],
     },
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: '[name].js',
+        filename: '[chunkhash].[name].js'
     },
     module: {
         rules: [
+            // Transpilate ES6 code
             {
                test: /\.js$/,
                exclude: /node_modules/,
                loader: 'babel-loader',
             },
+            // Load the custom css to index.html
+            {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: {
+                        loader: 'css-loader',
+                    },
+                }),
+            },
         ],
     },
+    // Debug ES6 code
     devtool: 'inline-source-map',
     devServer: {
         port: 8081,
@@ -40,7 +57,13 @@ module.exports = {
         }),
         // Place third party libraries in separate js
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
+            names: ['vendor', 'manifest'],
+        }),
+        // Generate bundle with css extension.
+        new ExtractTextPlugin({
+            filename: '[chunkhash].[name].css',
+            disable: false,
+            allChunks: true,
         }),
     ],
 };
